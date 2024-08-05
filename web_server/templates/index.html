@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden; /* Prevent scrollbars from appearing */
+            background-color: #f0f0f0; /* Light background color */
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center horizontally */
+            justify-content: center; /* Center vertically */
+            height: 100vh; /* Full viewport height */
+            text-align: center; /* Center text horizontally */
+        }
+        .heart {
+            position: absolute;
+            width: 30px; /* Adjust size as needed */
+            height: 30px; /* Adjust size as needed */
+            background-image: url('{{ url_for("static", filename="heart.png") }}');
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+        @keyframes fall {
+            0% {
+                transform: translateY(-100px);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(calc(100vh + 100px));
+                opacity: 0;
+            }
+        }
+        h1 {
+            margin: 0; /* Remove default margin */
+        }
+    </style>
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#ffffff">
+    <!-- Web App Capabilities -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+</head>
+<body>
+    <h1 style="color: red;">Hello my love</h1>
+    <p></p>
+    <audio id="background-audio" autoplay>
+        <source src="{{ url_for('static', filename='sample.mp3') }}" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <script>
+        // Function to create falling hearts
+        function createFallingHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.style.left = Math.random() * 100 + 'vw'; // Random horizontal position
+            heart.style.animation = `fall ${Math.random() * 5 + 5}s linear infinite`; // Random fall duration
+            document.body.appendChild(heart);
+
+            // Remove the heart element after animation ends
+            heart.addEventListener('animationend', () => {
+                heart.remove();
+            });
+        }
+
+        // Create hearts at intervals
+        setInterval(createFallingHeart, 500); // Adjust frequency as needed
+    </script>
+</body>
+</html>
